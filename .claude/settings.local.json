@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(del \"C:\\\\Users\\\\Lucas\\\\Claude\\\\frontend\\\\src\\\\shared\\\\lib\\\\clsx.ts\")"
+    ]
+  }
+}

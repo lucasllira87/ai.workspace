@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"/><title>Document Indexing Failed</title></head>
+<body style="font-family:sans-serif;color:#333;max-width:600px;margin:0 auto;padding:24px">
+  <h2 style="color:#e53e3e">Document indexing failed</h2>
+  <p>We were unable to process your document <strong th:text="${documentTitle}">—</strong>.</p>
+  <p>Reason: <em th:text="${reason}">unknown error</em></p>
+  <p>Please try uploading the document again. If the problem persists, contact support.</p>
+  <p style="margin-top:32px;color:#888;font-size:13px">AI Workspace · You are receiving this because a document upload failed.</p>
+</body>
+</html>

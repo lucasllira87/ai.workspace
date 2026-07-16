@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"/><title>Certificate Issued</title></head>
+<body style="font-family:sans-serif;color:#333;max-width:600px;margin:0 auto;padding:24px">
+  <h2 style="color:#276749">Certificate issued — congratulations!</h2>
+  <p>You have successfully completed <strong th:text="${courseTitle}">the course</strong> and earned your certificate.</p>
+  <p>Your certificate ID: <code th:text="${certificateId}">—</code></p>
+  <p>You can download your certificate from the learning dashboard at any time.</p>
+  <p style="margin-top:32px;color:#888;font-size:13px">AI Workspace · You are receiving this because you completed a course.</p>
+</body>
+</html>

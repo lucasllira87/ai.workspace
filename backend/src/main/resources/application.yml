@@ -1,0 +1,178 @@
+spring:
+  application:
+    name: ai-workspace
+
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/aiworkspace}
+    username: ${DATABASE_USERNAME:aiworkspace}
+    password: ${DATABASE_PASSWORD:aiworkspace}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: false
+        jdbc:
+          time_zone: UTC
+    show-sql: false
+    open-in-view: false
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+    validate-on-migrate: true
+
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      timeout: 2000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 4
+          min-idle: 1
+
+  jackson:
+    default-property-inclusion: non_null
+    serialization:
+      write-dates-as-timestamps: false
+    deserialization:
+      fail-on-unknown-properties: false
+    time-zone: UTC
+
+  mail:
+    host: ${MAIL_HOST:smtp.mailgun.org}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 55MB
+
+server:
+  port: ${PORT:8080}
+  error:
+    include-message: never
+    include-stacktrace: never
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: when_authorized
+  metrics:
+    tags:
+      application: ${spring.application.name}
+      environment: ${spring.profiles.active:default}
+  tracing:
+    sampling:
+      probability: 1.0
+  otlp:
+    tracing:
+      endpoint: ${OTEL_EXPORTER_OTLP_ENDPOINT:http://localhost:4318/v1/traces}
+
+cors:
+  allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173,http://localhost:3000}
+
+jwt:
+  secret: ${JWT_SECRET}
+  access-token-expiration: ${JWT_ACCESS_EXPIRATION:900}
+  refresh-token-expiration: ${JWT_REFRESH_EXPIRATION:604800}
+
+ai:
+  default-chat-model: ${AI_DEFAULT_CHAT_MODEL:gpt-4o}
+  default-embedding-model: ${AI_DEFAULT_EMBEDDING_MODEL:text-embedding-3-small}
+  providers:
+    openai:
+      enabled: ${OPENAI_ENABLED:false}
+      api-key: ${OPENAI_API_KEY:}
+    anthropic:
+      enabled: ${ANTHROPIC_ENABLED:false}
+      api-key: ${ANTHROPIC_API_KEY:}
+    google:
+      enabled: ${GOOGLE_AI_ENABLED:false}
+      api-key: ${GOOGLE_AI_API_KEY:}
+    ollama:
+      enabled: ${OLLAMA_ENABLED:false}
+      base-url: ${OLLAMA_BASE_URL:http://localhost:11434}
+  fallback-order:
+    chat:
+      - openai
+      - anthropic
+      - google
+    embedding:
+      - openai
+      - google
+  cost-guard:
+    enabled: ${AI_COST_GUARD_ENABLED:true}
+    max-cost-per-request: ${AI_MAX_COST_PER_REQUEST:0.10}
+  ingestion:
+    chunk-size: ${AI_CHUNK_SIZE:500}
+    chunk-overlap: ${AI_CHUNK_OVERLAP:50}
+    embedding-batch-size: ${AI_EMBEDDING_BATCH_SIZE:100}
+
+documents:
+  max-file-size-bytes: ${DOCUMENTS_MAX_FILE_SIZE:52428800}   # 50 MB
+  allowed-mime-types:
+    - application/pdf
+    - application/vnd.openxmlformats-officedocument.wordprocessingml.document
+    - text/markdown
+    - text/x-markdown
+    - text/html
+    - text/plain
+  storage:
+    provider: ${DOCUMENTS_STORAGE_PROVIDER:local}
+    local-base-path: ${DOCUMENTS_STORAGE_PATH:./data/uploads}
+  rag-top-k: ${DOCUMENTS_RAG_TOP_K:5}
+  rag-min-similarity: ${DOCUMENTS_RAG_MIN_SIMILARITY:0.7}
+  stuck-document-threshold-minutes: ${DOCUMENTS_STUCK_THRESHOLD_MINUTES:15}
+  recovery:
+    interval-ms: ${DOCUMENTS_RECOVERY_INTERVAL_MS:300000}
+
+billing:
+  stripe:
+    secret-key: ${STRIPE_SECRET_KEY:}
+    webhook-secret: ${STRIPE_WEBHOOK_SECRET:}
+  renewal:
+    cron: ${BILLING_RENEWAL_CRON:0 0 2 * * *}
+  trial-warning:
+    cron: ${BILLING_TRIAL_WARNING_CRON:0 0 10 * * *}
+
+notifications:
+  mail:
+    from: ${NOTIFICATIONS_MAIL_FROM:noreply@aiworkspace.com}
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
+  info:
+    title: AI Workspace API
+    description: Plataforma SaaS de IA — Document Assistant, Learning Platform e mais
+    version: 1.0.0

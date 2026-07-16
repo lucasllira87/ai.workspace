@@ -1,0 +1,12 @@
+# Local dev override — only infrastructure services run in Docker.
+# Backend: ./backend/mvnw spring-boot:run
+# Frontend: cd frontend && npm run dev
+#
+# Usage: docker compose up   (this file is loaded automatically)
+
+services:
+  backend:
+    profiles: ["full"]
+
+  frontend:
+    profiles: ["full"]

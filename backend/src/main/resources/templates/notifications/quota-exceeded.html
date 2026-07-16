@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"/><title>Quota Exceeded</title></head>
+<body style="font-family:sans-serif;color:#333;max-width:600px;margin:0 auto;padding:24px">
+  <h2 style="color:#d69e2e">Monthly quota exceeded</h2>
+  <p>You have reached your <strong th:text="${limitType}">token</strong> limit for this billing period.</p>
+  <p>AI features will be unavailable until your quota resets at the start of next month, or you can upgrade your plan for a higher limit.</p>
+  <p style="margin-top:32px;color:#888;font-size:13px">AI Workspace · You are receiving this because your account reached a usage limit.</p>
+</body>
+</html>

@@ -1,0 +1,26 @@
+spring:
+  jpa:
+    show-sql: false
+
+logging:
+  level:
+    com.aiworkspace: INFO
+    org.springframework.security: WARN
+
+springdoc:
+  swagger-ui:
+    enabled: false
+  api-docs:
+    enabled: false
+
+management:
+  endpoint:
+    health:
+      show-details: never
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus
+  tracing:
+    sampling:
+      probability: 0.1
